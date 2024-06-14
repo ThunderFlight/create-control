@@ -16,15 +16,6 @@
   "needsTypeScript": {
     "message": "Add TypeScript?"
   },
-  "needsJsx": {
-    "message": "Add JSX Support?"
-  },
-  "needsRouter": {
-    "message": "Add Vue Router for Single Page Application development?"
-  },
-  "needsPinia": {
-    "message": "Add Pinia for state management?"
-  },
   "needsVitest": {
     "message": "Add Vitest for Unit Testing?"
   },
@@ -32,7 +23,9 @@
     "message": "Add an End-to-End Testing Solution?",
     "hint": "- Use arrow-keys. Return to submit.",
     "selectOptions": {
-      "negative": { "title": "No" },
+      "negative": {
+        "title": "No"
+      },
       "cypress": {
         "title": "Cypress",
         "desc": "also supports unit testing with Cypress Component Testing"
@@ -41,7 +34,24 @@
         "title": "Nightwatch",
         "desc": "also supports unit testing with Nightwatch Component Testing"
       },
-      "playwright": { "title": "Playwright" }
+      "playwright": {
+        "title": "Playwright"
+      }
+    }
+  },
+  "needsMinOrSignals": {
+    "message": "Add control.ts/@min or control.ts/@signals",
+    "hint": "- use arrow-keys. return to submit.",
+    "selectOptions": {
+      "negative": {
+        "title": "Non"
+      },
+      "min": {
+        "title": "@control.ts/min"
+      },
+      "signals": {
+        "title": "@control.ts/signals"
+      }
     }
   },
   "needsEslint": {
@@ -49,9 +59,6 @@
   },
   "needsPrettier": {
     "message": "Add Prettier for code formatting?"
-  },
-  "needsDevTools": {
-    "message": "Add Vue DevTools 7 extension for debugging? (experimental)"
   },
   "errors": {
     "operationCancelled": "Operation cancelled"

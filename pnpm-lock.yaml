@@ -8,6 +8,12 @@ importers:
 
   .:
     devDependencies:
+      '@control.ts/min':
+        specifier: ^0.1.10
+        version: 0.1.10
+      '@control.ts/signals':
+        specifier: ^0.0.4
+        version: 0.0.4
       '@tsconfig/node20':
         specifier: ^20.1.4
         version: 20.1.4
@@ -396,6 +402,15 @@ packages:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
 
+  '@control.ts/control@0.0.3':
+    resolution: {integrity: sha512-w6JzLRaxmltloPAJWRP4+d+MLNxqJ2ui8qMPNnu/F+CkdKUVBGm1IoaaflLA6PiKDzcMU+gPCJuLSW0dpmPpGw==}
+
+  '@control.ts/min@0.1.10':
+    resolution: {integrity: sha512-TowFUWR/Xv8PJTSNFmWyaMbIohf6yeqaV5yL1qxDKeVuBQplWYz7ofQqjioOn/yKeWJ5qWVp554qtIdmAopK3g==}
+
+  '@control.ts/signals@0.0.4':
+    resolution: {integrity: sha512-LBOGnBjRGvtd/uGM0FTj8Aw1cxh/734hI0aP4dENPn/Zfg5vgL++JAXJwLsIfEzZ7FumLrYC1JSQn9I+wr2gpQ==}
+
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
@@ -752,6 +767,9 @@ packages:
 
   '@polka/url@1.0.0-next.24':
     resolution: {integrity: sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==}
+
+  '@preact/signals-core@1.6.0':
+    resolution: {integrity: sha512-O/XGxwP85h1F7+ouqTMOIZ3+V1whfaV9ToIVcuyGriD4JkSD00cQo54BKdqjvBJxbenvp7ynfqRHEwI6e+NIhw==}
 
   '@rollup/pluginutils@5.1.0':
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
@@ -3943,6 +3961,17 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
+  '@control.ts/control@0.0.3': {}
+
+  '@control.ts/min@0.1.10':
+    dependencies:
+      '@control.ts/control': 0.0.3
+
+  '@control.ts/signals@0.0.4':
+    dependencies:
+      '@control.ts/control': 0.0.3
+      '@preact/signals-core': 1.6.0
+
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
@@ -4205,6 +4234,8 @@ snapshots:
       playwright: 1.44.0
 
   '@polka/url@1.0.0-next.24': {}
+
+  '@preact/signals-core@1.6.0': {}
 
   '@rollup/pluginutils@5.1.0(rollup@4.13.2)':
     dependencies:

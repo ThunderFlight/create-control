@@ -28,6 +28,7 @@ interface Language {
   needsPinia: LanguageItem
   needsVitest: LanguageItem
   needsE2eTesting: LanguageItem
+  needsMinOrSignals: LanguageItem
   needsEslint: LanguageItem
   needsPrettier: LanguageItem
   needsDevTools: LanguageItem

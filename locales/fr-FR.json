@@ -28,20 +28,19 @@
   "needsVitest": {
     "message": "Ajouter Vitest pour les tests unitaires\u00a0?"
   },
-  "needsE2eTesting": {
-    "message": "Ajouter une solution de test de bout en bout (e2e)\u00a0?",
-    "hint": "- Utilisez les flèches et appuyez sur la touche Entrée pour valider",
-    "selectOptions": {
-      "negative": { "title": "Non" },
-      "cypress": {
-        "title": "Cypress",
-        "desc": "prend également en charge les tests unitaires avec Cypress Component Testing"
+  "needsMinOrSignals": {
+    "message": "add control.ts/@min or control.ts/@signals",
+    "hint": "- use arrow-keys. return to submit.",
+    "selectoptions": {
+      "negative": {
+        "title": "Non"
       },
-      "nightwatch": {
-        "title": "Nightwatch",
-        "desc": "prend également en charge les tests unitaires avec Nightwatch Component Testing"
+      "min": {
+        "title": "control.ts/min"
       },
-      "playwright": { "title": "Playwright" }
+      "signals": {
+        "title": "control.ts/signals"
+      }
     }
   },
   "needsEslint": {

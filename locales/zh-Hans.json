@@ -28,20 +28,19 @@
   "needsVitest": {
     "message": "是否引入 Vitest 用于单元测试？"
   },
-  "needsE2eTesting": {
-    "message": "是否要引入一款端到端（End to End）测试工具？",
-    "hint": "- 使用箭头切换按Enter确认。",
-    "selectOptions": {
-      "negative": { "title": "不需要" },
-      "cypress": {
-        "title": "Cypress",
-        "desc": "同时支持基于 Cypress Component Testing 的单元测试"
+  "needsMinOrSignals": {
+    "message": "add control.ts/@min or control.ts/@signals",
+    "hint": "- use arrow-keys. return to submit.",
+    "selectoptions": {
+      "negative": {
+        "title": "Non"
       },
-      "nightwatch": {
-        "title": "Nightwatch",
-        "desc": "同时支持基于 Nightwatch Component Testing 的单元测试"
+      "min": {
+        "title": "control.ts/min"
       },
-      "playwright": { "title": "Playwright" }
+      "signals": {
+        "title": "control.ts/signals"
+      }
     }
   },
   "needsEslint": {

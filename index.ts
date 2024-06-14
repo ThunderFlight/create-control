@@ -61,13 +61,13 @@ function emptyDir(dir) {
 }
 
 async function init() {
-  console.log()
   console.log(
-    process.stdout.isTTY && process.stdout.getColorDepth() > 8
-      ? banners.gradientBanner
-      : banners.defaultBanner
+    '\n' +
+      (process.stdout.isTTY && process.stdout.getColorDepth() > 8
+        ? banners.gradientBanner
+        : banners.defaultBanner) +
+      '\n'
   )
-  console.log()
 
   const cwd = process.cwd()
   // possible options:
@@ -93,11 +93,7 @@ async function init() {
     typescript: { type: 'boolean' },
     ts: { type: 'boolean' },
     'with-tests': { type: 'boolean' },
-    tests: { type: 'boolean' },
-    'vue-router': { type: 'boolean' },
-    router: { type: 'boolean' },
-    'vue-devtools': { type: 'boolean' },
-    devtools: { type: 'boolean' }
+    tests: { type: 'boolean' }
   } as const
 
   const { values: argv, positionals } = parseArgs({
@@ -111,17 +107,15 @@ async function init() {
     typeof (
       argv.default ??
       (argv.ts || argv.typescript) ??
-      argv.jsx ??
-      (argv.router || argv['vue-router']) ??
-      argv.pinia ??
       (argv.tests || argv['with-tests']) ??
       argv.vitest ??
       argv.cypress ??
       argv.nightwatch ??
       argv.playwright ??
+      argv['@control.ts/signals'] ??
+      argv['@control.ts/min'] ??
       argv.eslint ??
-      argv['eslint-with-prettier'] ??
-      (argv.devtools || argv['vue-devtools'])
+      argv['eslint-with-prettier']
     ) === 'boolean'
 
   let targetDir = positionals[0]
@@ -136,14 +130,11 @@ async function init() {
     shouldOverwrite?: boolean
     packageName?: string
     needsTypeScript?: boolean
-    needsJsx?: boolean
-    needsRouter?: boolean
-    needsPinia?: boolean
     needsVitest?: boolean
+    needsMinOrSignals?: false | '@control.ts/min' | '@control.ts/signals'
     needsE2eTesting?: false | 'cypress' | 'nightwatch' | 'playwright'
     needsEslint?: boolean
     needsPrettier?: boolean
-    needsDevTools?: boolean
   } = {}
 
   try {
@@ -210,30 +201,6 @@ async function init() {
           inactive: language.defaultToggleOptions.inactive
         },
         {
-          name: 'needsJsx',
-          type: () => (isFeatureFlagsUsed ? null : 'toggle'),
-          message: language.needsJsx.message,
-          initial: false,
-          active: language.defaultToggleOptions.active,
-          inactive: language.defaultToggleOptions.inactive
-        },
-        {
-          name: 'needsRouter',
-          type: () => (isFeatureFlagsUsed ? null : 'toggle'),
-          message: language.needsRouter.message,
-          initial: false,
-          active: language.defaultToggleOptions.active,
-          inactive: language.defaultToggleOptions.inactive
-        },
-        {
-          name: 'needsPinia',
-          type: () => (isFeatureFlagsUsed ? null : 'toggle'),
-          message: language.needsPinia.message,
-          initial: false,
-          active: language.defaultToggleOptions.active,
-          inactive: language.defaultToggleOptions.inactive
-        },
-        {
           name: 'needsVitest',
           type: () => (isFeatureFlagsUsed ? null : 'toggle'),
           message: language.needsVitest.message,
@@ -272,6 +239,28 @@ async function init() {
             }
           ]
         },
+
+        {
+          name: 'needsMinOrSignals',
+          type: () => (isFeatureFlagsUsed ? null : 'select'),
+          hint: language.needsMinOrSignals.hint,
+          message: language.needsMinOrSignals.message,
+          initial: 0,
+          choices: (prev) => [
+            {
+              title: language.needsMinOrSignals.selectOptions.negative.title,
+              value: false
+            },
+            {
+              title: language.needsMinOrSignals.selectOptions.signals.title,
+              value: '@control.ts/signals'
+            },
+            {
+              title: language.needsMinOrSignals.selectOptions.min.title,
+              value: '@control.ts/min'
+            }
+          ]
+        },
         {
           name: 'needsEslint',
           type: () => (isFeatureFlagsUsed ? null : 'toggle'),
@@ -289,14 +278,6 @@ async function init() {
             return 'toggle'
           },
           message: language.needsPrettier.message,
-          initial: false,
-          active: language.defaultToggleOptions.active,
-          inactive: language.defaultToggleOptions.inactive
-        },
-        {
-          name: 'needsDevTools',
-          type: () => (isFeatureFlagsUsed ? null : 'toggle'),
-          message: language.needsDevTools.message,
           initial: false,
           active: language.defaultToggleOptions.active,
           inactive: language.defaultToggleOptions.inactive
@@ -319,14 +300,10 @@ async function init() {
     projectName,
     packageName = projectName ?? defaultProjectName,
     shouldOverwrite = argv.force,
-    needsJsx = argv.jsx,
     needsTypeScript = argv.ts || argv.typescript,
-    needsRouter = argv.router || argv['vue-router'],
-    needsPinia = argv.pinia,
     needsVitest = argv.vitest || argv.tests,
     needsEslint = argv.eslint || argv['eslint-with-prettier'],
-    needsPrettier = argv['eslint-with-prettier'],
-    needsDevTools = argv.devtools || argv['vue-devtools']
+    needsPrettier = argv['eslint-with-prettier']
   } = result
 
   const { needsE2eTesting } = result
@@ -335,6 +312,11 @@ async function init() {
   const needsNightwatch = argv.nightwatch || needsE2eTesting === 'nightwatch'
   const needsNightwatchCT = needsNightwatch && !needsVitest
   const needsPlaywright = argv.playwright || needsE2eTesting === 'playwright'
+
+  const { needsMinOrSignals } = result
+
+  const needsMin = argv['@control.ts/min'] || needsMinOrSignals === '@control.ts/min'
+  const needsSignals = argv['@control.ts/signals'] || needsMinOrSignals === '@control.ts/signals'
 
   const root = path.join(cwd, targetDir)
 
@@ -363,15 +345,12 @@ async function init() {
   render('base')
 
   // Add configs.
-  if (needsJsx) {
-    render('config/jsx')
-  }
-  if (needsRouter) {
-    render('config/router')
-  }
-  if (needsPinia) {
-    render('config/pinia')
-  }
+  //if (needsMin) {
+  //  render('config/@control.ts/min')
+  //}
+  //if (needsSignals) {
+  //  render('config/@control.ts/signals')
+  //}
   if (needsVitest) {
     render('config/vitest')
   }
@@ -409,6 +388,24 @@ async function init() {
           path: './tsconfig.app.json'
         }
       ]
+    }
+    if (needsSignals) {
+      render('tsconfig/@control.ts/signals')
+      // Cypress uses `ts-node` internally, which doesn't support solution-style tsconfig.
+      // So we have to set a dummy `compilerOptions` in the root tsconfig to make it work.
+      // I use `NodeNext` here instead of `ES2015` because that's what the actual environment is.
+      // (Cypress uses the ts-node/esm loader when `type: module` is specified in package.json.)
+      // @ts-ignore
+      rootTsConfig.compilerOptions = {
+        module: 'NodeNext'
+      }
+    }
+    if (needsMin) {
+      render('tsconfig/@control.ts/min')
+      // Cypress Component Testing needs a standalone tsconfig.
+      rootTsConfig.references.push({
+        path: './tsconfig.cypress-ct.json'
+      })
     }
     if (needsCypress) {
       render('tsconfig/cypress')
@@ -471,26 +468,14 @@ async function init() {
     render('config/prettier')
   }
 
-  if (needsDevTools) {
-    render('config/devtools')
-  }
   // Render code template.
   // prettier-ignore
   const codeTemplate =
     (needsTypeScript ? 'typescript-' : '') +
-    (needsRouter ? 'router' : 'default')
+    (/*needsRouter ? 'router' : */'default')
   render(`code/${codeTemplate}`)
 
-  // Render entry file (main.js/ts).
-  if (needsPinia && needsRouter) {
-    render('entry/router-and-pinia')
-  } else if (needsPinia) {
-    render('entry/pinia')
-  } else if (needsRouter) {
-    render('entry/router')
-  } else {
-    render('entry/default')
-  }
+  render('entry/default')
 
   // An external data store for callbacks to share data
   const dataStore = {}

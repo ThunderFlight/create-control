@@ -28,20 +28,19 @@
   "needsVitest": {
     "message": "Birim Testi için Vitest eklensin mi?"
   },
-  "needsE2eTesting": {
-    "message": "Uçtan Uca Test Çözümü Eklensin mi?",
-    "hint": "- Ok tuşlarını kullan. Gönderime geri dön.",
-    "selectOptions": {
-      "negative": { "title": "Hayır" },
-      "cypress": {
-        "title": "Cypress",
-        "desc": "ayrıca Cypress Bileşen Testi ile birim testini de destekler"
+  "needsMinOrSignals": {
+    "message": "add control.ts/@min or control.ts/@signals",
+    "hint": "- use arrow-keys. return to submit.",
+    "selectoptions": {
+      "negative": {
+        "title": "Non"
       },
-      "nightwatch": {
-        "title": "Nightwatch",
-        "desc": "ayrıca Nightwatch Bileşen Testi ile birim testini de destekler"
+      "min": {
+        "title": "control.ts/min"
       },
-      "playwright": { "title": "Playwright" }
+      "signals": {
+        "title": "control.ts/signals"
+      }
     }
   },
   "needsEslint": {
