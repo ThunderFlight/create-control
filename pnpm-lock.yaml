@@ -206,6 +206,12 @@ importers:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@20.12.11)(jsdom@24.0.0)
 
+  template/tsconfig/@control.ts/min:
+    dependencies:
+      '@control.ts/min':
+        specifier: ^0.1.10
+        version: 0.1.10
+
   template/tsconfig/base:
     devDependencies:
       '@tsconfig/node20':

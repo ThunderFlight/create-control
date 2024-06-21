@@ -369,6 +369,12 @@ async function init() {
   if (needsPlaywright) {
     render('config/playwright')
   }
+  if (needsMin) {
+    render('config/@control.ts/min')
+  }
+  if (needsSignals) {
+    render('config/@control.ts/signals')
+  }
   if (needsTypeScript) {
     render('config/typescript')
 
@@ -389,24 +395,7 @@ async function init() {
         }
       ]
     }
-    if (needsSignals) {
-      render('tsconfig/@control.ts/signals')
-      // Cypress uses `ts-node` internally, which doesn't support solution-style tsconfig.
-      // So we have to set a dummy `compilerOptions` in the root tsconfig to make it work.
-      // I use `NodeNext` here instead of `ES2015` because that's what the actual environment is.
-      // (Cypress uses the ts-node/esm loader when `type: module` is specified in package.json.)
-      // @ts-ignore
-      rootTsConfig.compilerOptions = {
-        module: 'NodeNext'
-      }
-    }
-    if (needsMin) {
-      render('tsconfig/@control.ts/min')
-      // Cypress Component Testing needs a standalone tsconfig.
-      rootTsConfig.references.push({
-        path: './tsconfig.cypress-ct.json'
-      })
-    }
+
     if (needsCypress) {
       render('tsconfig/cypress')
       // Cypress uses `ts-node` internally, which doesn't support solution-style tsconfig.
